@@ -1,4 +1,10 @@
-resource "random_pet" "prefix" {}
+resource "random_string" "number" {
+  length  = 16
+  upper   = false
+  lower   = false
+  number  = true
+  special = false
+}
 
 provider "azurerm" {
   features {}
@@ -39,7 +45,7 @@ module "container-registry" {
   # Azure Container Registry configuration
   # The `Classic` SKU is Deprecated and will no longer be available for new resources
   container_registry_config = {
-    name          = "acr-${random_pet.prefix.id}"
+    name          = "acr${random_string.number.result}"
     admin_enabled = true
     sku           = "Premium"
   }
