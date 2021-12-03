@@ -59,7 +59,7 @@ module "container-registry" {
 
   # (Optional) To enable Azure Monitoring for Azure MySQL database
   # (Optional) Specify `storage_account_name` to save monitoring logs to storage. 
-  log_analytics_workspace_name = data.terraform_remote_state.aks.outputs.log_analytics_workspace_name
+  log_analytics_workspace_name = data.terraform_remote_state.aks.outputs.azurerm_log_analytics_workspace_name
 
   # Adding TAG's to your Azure resources
   tags = {
