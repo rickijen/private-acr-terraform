@@ -32,6 +32,12 @@ data "terraform_remote_state" "aks" {
   }
 }
 
+# Private DNS Zone for ACR
+resource "azurerm_private_dns_zone" "dns-acr" {
+  name                = "privatelink.azurecr.io"
+  resource_group_name = data.terraform_remote_state.rg.outputs.resource_group_kube_name
+}
+
 module "container-registry" {
   source  = "kumarvna/container-registry/azurerm"
   version = "1.0.0"
@@ -39,8 +45,14 @@ module "container-registry" {
   # By default, this module will not create a resource group. Location will be same as existing RG.
   # proivde a name to use an existing resource group, specify the existing resource group name, 
   # set the argument to `create_resource_group = true` to create new resrouce group.
-  resource_group_name = data.terraform_remote_state.rg.outputs.resource_group_kube_name
-  location            = data.terraform_remote_state.rg.outputs.location
+  resource_group_name       = data.terraform_remote_state.rg.outputs.resource_group_kube_name
+  location                  = data.terraform_remote_state.rg.outputs.location
+  
+  # Private ACR
+  enable_private_endpoint   = true
+  virtual_network_name      = data.terraform_remote_state.rg.outputs.kube_vnet_name
+  private_subnet_address_prefix = data.terraform_remote_state.rg.outputs.aks_subnet_prefix
+  existing_private_dns_zone = azurerm_private_dns_zone.dns-acr.name
 
   # Azure Container Registry configuration
   # The `Classic` SKU is Deprecated and will no longer be available for new resources
