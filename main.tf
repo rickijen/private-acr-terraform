@@ -33,10 +33,10 @@ data "terraform_remote_state" "aks" {
 }
 
 # Private DNS Zone for ACR
-resource "azurerm_private_dns_zone" "dns-acr" {
-  name                = "privatelink.azurecr.io"
-  resource_group_name = data.terraform_remote_state.rg.outputs.resource_group_kube_name
-}
+#resource "azurerm_private_dns_zone" "dns-acr" {
+#  name                = "privatelink.azurecr.io"
+#  resource_group_name = data.terraform_remote_state.rg.outputs.resource_group_kube_name
+#}
 
 module "container-registry" {
   source  = "kumarvna/container-registry/azurerm"
@@ -52,7 +52,7 @@ module "container-registry" {
   enable_private_endpoint   = true
   virtual_network_name      = data.terraform_remote_state.aks.outputs.kube_vnet_name
   private_subnet_address_prefix = ["${data.terraform_remote_state.aks.outputs.aks_subnet_prefix}"]
-  existing_private_dns_zone = azurerm_private_dns_zone.dns-acr.name
+  #existing_private_dns_zone = azurerm_private_dns_zone.dns-acr.name
 
   # Azure Container Registry configuration
   # The `Classic` SKU is Deprecated and will no longer be available for new resources
