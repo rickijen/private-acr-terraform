@@ -51,7 +51,8 @@ module "container-registry" {
   # Private ACR
   enable_private_endpoint   = true
   virtual_network_name      = data.terraform_remote_state.aks.outputs.kube_vnet_name
-  private_subnet_address_prefix = ["${data.terraform_remote_state.aks.outputs.aks_subnet_prefix}"]
+  #private_subnet_address_prefix = ["${data.terraform_remote_state.aks.outputs.aks_subnet_prefix}"]
+  private_subnet_address_prefix = ["10.10.6.0/24"]
   #existing_private_dns_zone = azurerm_private_dns_zone.dns-acr.name
 
   # Azure Container Registry configuration
