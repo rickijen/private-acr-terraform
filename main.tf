@@ -67,7 +67,7 @@ module "container-registry" {
   # The georeplications list cannot contain the location where the Container Registry exists.
   georeplications = [
     {
-      location                = "westcentralus"
+      location                = "southcentralus" # Must have AZ support
       zone_redundancy_enabled = true
     }
   ]
