@@ -86,6 +86,6 @@ module "container-registry" {
 resource "azurerm_private_dns_zone_virtual_network_link" "pdns-vnet-link" {
   name                  = "vnet-private-zone-link-2-hub"
   resource_group_name   = data.terraform_remote_state.rg.outputs.resource_group_vnet_name
-  private_dns_zone_name = modeule.container-registry.container_registry_private_dns_zone_domain
+  private_dns_zone_name = module.container-registry.container_registry_private_dns_zone_domain
   virtual_network_id    = data.terraform_remote_state.aks.outputs.hub_vnet_id
 }
