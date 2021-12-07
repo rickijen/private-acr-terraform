@@ -81,3 +81,11 @@ module "container-registry" {
     env          = "production"
   }
 }
+
+# Create PDNSZ VNet link to hub
+resource "azurerm_private_dns_zone_virtual_network_link" "pdns-vnet-link" {
+  name                  = "vnet-private-zone-link-2-hub"
+  resource_group_name   = data.terraform_remote_state.rg.outputs.resource_group_vnet_name
+  private_dns_zone_name = "privatelink.azurecr.io"
+  virtual_network_id    = data.terraform_remote_state.aks.outputs.hub_vnet_id
+}
