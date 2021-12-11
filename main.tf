@@ -82,3 +82,20 @@ module "container-registry" {
   }
 }
 
+#
+# Add VNet link to the hub vnet
+#
+data "azurerm_private_dns_zone" "dnszone1" {
+  count               = 1
+  name                = "privatelink.azurecr.io"
+  resource_group_name = data.terraform_remote_state.rg.outputs.resource_group_kube_name
+}
+
+# Create PDNSZ VNet link to hub
+resource "azurerm_private_dns_zone_virtual_network_link" "pdns-vnet-link" {
+  name                  = "vnet-private-zone-link-${data.terraform_remote_state.aks.outputs.hub_vnet_name}"
+  resource_group_name   = data.terraform_remote_state.rg.outputs.resource_group_kube_name
+  private_dns_zone_name = data.azurerm_private_dns_zone.dnszone1[0].name
+  virtual_network_id    = data.terraform_remote_state.aks.outputs.hub_vnet_id
+  registration_enabled  = true
+}
