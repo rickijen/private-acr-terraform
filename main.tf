@@ -83,12 +83,13 @@ module "container-registry" {
 }
 
 #
-# Add VNet link to the hub vnet
+# Reference DNS Zone for ACR
 #
 data "azurerm_private_dns_zone" "dnszone1" {
   count               = 1
   name                = "privatelink.azurecr.io"
   resource_group_name = data.terraform_remote_state.rg.outputs.resource_group_kube_name
+  depends_on = [module.container-registry]
 }
 
 # Create PDNSZ VNet link to hub
