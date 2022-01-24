@@ -16,7 +16,7 @@ data "terraform_remote_state" "rg" {
   config = {
     organization = "greensugarcake"
     workspaces = {
-      name = "resource-groups"
+      name = var.resource-group-workspace
     }
   }
 }
@@ -27,7 +27,7 @@ data "terraform_remote_state" "aks" {
   config = {
     organization = "greensugarcake"
     workspaces = {
-      name = "private-aks-cluster"
+      name = var.aks-cluster-workspace
     }
   }
 }
