@@ -16,7 +16,7 @@ data "terraform_remote_state" "rg" {
   config = {
     organization = "greensugarcake"
     workspaces = {
-      name = var.resource-group-workspace
+      name = var.resource-groups-workspace
     }
   }
 }

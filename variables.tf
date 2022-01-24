@@ -1,4 +1,4 @@
-variable "resource-group-workspace" {
+variable "resource-groups-workspace" {
   description = "The resource group workspace"
 }
 
