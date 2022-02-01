@@ -100,3 +100,11 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pdns-vnet-link" {
   virtual_network_id    = data.terraform_remote_state.aks.outputs.hub_vnet_id
   registration_enabled  = true
 }
+
+# Assign the AcrPull role to the managed identity associated to the AKS Cluster
+# Equivalent to az aks update ... --attach-acr <acr-name>
+resource "azurerm_role_assignment" "role_acrpull" {
+  scope                = module.container-registry.container_registry_id
+  role_definition_name = "AcrPull"
+  principal_id         = data.terraform_remote_state.aks.outputs.aks_identity_id
+}
