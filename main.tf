@@ -103,14 +103,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pdns-vnet-link" {
 
 # Assign the AcrPull role to the kublet obj id
 # Equivalent to az aks update ... --attach-acr <acr-name>
-/*
-resource "azurerm_role_assignment" "role_acrpull" {
-  scope                = module.container-registry.container_registry_id
-  role_definition_name = "AcrPull"
-  principal_id         = data.terraform_remote_state.aks.outputs.aks_identity_id
-}
-*/
-
 resource "azurerm_role_assignment" "role_acrpull_kubelet" {
   scope                = module.container-registry.container_registry_id
   role_definition_name = "AcrPull"
